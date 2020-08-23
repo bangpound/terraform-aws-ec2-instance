@@ -3,12 +3,6 @@ variable "name" {
   type        = string
 }
 
-variable "instance_count" {
-  description = "Number of instances to launch"
-  type        = number
-  default     = 1
-}
-
 variable "ami" {
   description = "ID of AMI to use for the instance"
   type        = string
@@ -79,12 +73,6 @@ variable "subnet_id" {
   default     = ""
 }
 
-variable "subnet_ids" {
-  description = "A list of VPC Subnet IDs to launch in"
-  type        = list(string)
-  default     = []
-}
-
 variable "associate_public_ip_address" {
   description = "If true, the EC2 instance will have associated public IP address"
   type        = bool
@@ -95,12 +83,6 @@ variable "private_ip" {
   description = "Private IP address to associate with the instance in a VPC"
   type        = string
   default     = null
-}
-
-variable "private_ips" {
-  description = "A list of private IP address to associate with the instance in a VPC. Should match the number of instances."
-  type        = list(string)
-  default     = []
 }
 
 variable "source_dest_check" {
@@ -180,17 +162,4 @@ variable "cpu_credits" {
   type        = string
   default     = "standard"
 }
-
-variable "use_num_suffix" {
-  description = "Always append numerical suffix to instance name, even if instance_count is 1"
-  type        = bool
-  default     = false
-}
-
-variable "num_suffix_format" {
-  description = "Numerical suffix format used as the volume and EC2 instance name suffix"
-  type        = string
-  default     = "-%d"
-}
-
 

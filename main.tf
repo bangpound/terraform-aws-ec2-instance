@@ -3,16 +3,11 @@ locals {
 }
 
 resource "aws_instance" "this" {
-  count = var.instance_count
-
-  ami              = var.ami
-  instance_type    = var.instance_type
-  user_data        = var.user_data
-  user_data_base64 = var.user_data_base64
-  subnet_id = length(var.network_interface) > 0 ? null : element(
-    distinct(compact(concat([var.subnet_id], var.subnet_ids))),
-    count.index,
-  )
+  ami                    = var.ami
+  instance_type          = var.instance_type
+  user_data              = var.user_data
+  user_data_base64       = var.user_data_base64
+  subnet_id              = var.subnet_id
   key_name               = var.key_name
   monitoring             = var.monitoring
   get_password_data      = var.get_password_data
@@ -20,7 +15,7 @@ resource "aws_instance" "this" {
   iam_instance_profile   = var.iam_instance_profile
 
   associate_public_ip_address = var.associate_public_ip_address
-  private_ip                  = length(var.private_ips) > 0 ? element(var.private_ips, count.index) : var.private_ip
+  private_ip                  = var.private_ip
   ipv6_address_count          = var.ipv6_address_count
   ipv6_addresses              = var.ipv6_addresses
 
@@ -78,14 +73,14 @@ resource "aws_instance" "this" {
 
   tags = merge(
     {
-      "Name" = var.instance_count > 1 || var.use_num_suffix ? format("%s${var.num_suffix_format}", var.name, count.index + 1) : var.name
+      "Name" = var.name
     },
     var.tags,
   )
 
   volume_tags = merge(
     {
-      "Name" = var.instance_count > 1 || var.use_num_suffix ? format("%s${var.num_suffix_format}", var.name, count.index + 1) : var.name
+      "Name" = var.name
     },
     var.volume_tags,
   )
